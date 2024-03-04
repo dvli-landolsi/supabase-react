@@ -6,12 +6,12 @@ import {
   useMemo,
   ReactNode,
 } from "react";
-import { createClient, AuthChangeEvent, Session } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 
-const VITE_SUPABASE_PROJECT_URL: string = import.meta.env
-  .VITE_SUPABASE_PROJECT_URL;
+// const VITE_SUPABASE_PROJECT_URL: string = import.meta.env
+//   .VITE_SUPABASE_PROJECT_URL;
 
-const VITE_API_KEY: string = import.meta.env.VITE_API_KEY;
+// const VITE_API_KEY: string = import.meta.env.VITE_API_KEY;
 
 interface AuthContextProps {
   isInitialized: boolean;
@@ -45,12 +45,12 @@ export function SupaBaseConnectionProvider({
 }: {
   children: ReactNode;
 }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state] = useReducer(reducer, initialState);
 
-  const supabase = createClient(VITE_SUPABASE_PROJECT_URL, VITE_API_KEY);
+  // const supabase = createClient(VITE_SUPABASE_PROJECT_URL, VITE_API_KEY);
 
   const initialize = useCallback(async () => {
-    const test = await supabase.auth.getSession();
+    // const test = await supabase.auth.getSession();
   }, []);
 
   useEffect(() => {
