@@ -1,21 +1,22 @@
 import { useState, FormEvent } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useAuthContext } from "src/context";
 import { supabase } from "src/supabase/supabaseClient";
 
 function Register() {
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const { register } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleRegistration = async (e: FormEvent) => {
-    e.preventDefault(); // Prevents the default form submission behavior
+    e.preventDefault();
 
     try {
-      const authPromise = supabase.auth.signUp({
-        email,
-        password,
-      });
-
+      const authPromise = register(email, password, firstName);
+      console.log(authPromise);
       const { error, data } = await authPromise;
 
       toast.promise(authPromise, {
@@ -30,8 +31,9 @@ function Register() {
       if (error) {
         console.error("Registration error:", error?.message);
       } else {
+        navigate("/login", { replace: true });
+
         console.log("data registered successfully:", data);
-        // You can perform additional actions after successful registration
       }
     } catch (error) {
       console.error("Unexpected error during registration:", error);
@@ -51,7 +53,7 @@ function Register() {
           type="text"
           id="firstName"
           className="mt-1 p-2 border rounded-md w-full"
-          value={fullName}
+          value={firstName}
           onChange={(e) => setFullName(e.target.value)}
         />
       </div>
@@ -61,7 +63,7 @@ function Register() {
           htmlFor="lastName"
           className="block text-sm font-medium text-gray-700"
         >
-          Last Name
+          email
         </label>
         <input
           type="text"
@@ -77,10 +79,10 @@ function Register() {
           htmlFor="email"
           className="block text-sm font-medium text-gray-700"
         >
-          Email
+          password
         </label>
         <input
-          type="email"
+          type="text"
           id="email"
           className="mt-1 p-2 border rounded-md w-full"
           value={password}

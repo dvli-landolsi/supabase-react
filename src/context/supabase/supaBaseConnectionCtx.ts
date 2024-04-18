@@ -1,6 +1,6 @@
 import { useContext } from "react";
 //
-import { AuthContext } from "./supabaseAuthProvider";
+import { AuthContext } from "./AuthProvider";
 
 // ----------------------------------------------------------------------
 

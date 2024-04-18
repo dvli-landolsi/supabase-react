@@ -7,10 +7,14 @@ export default function SupabaseConnectionGuard({
 }: {
   children: ReactNode;
 }) {
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, isInitialized } = useAuthContext();
 
   if (!isAuthenticated) {
-    return <Navigate to={"/user/login"} />;
+    return <Navigate to={"/login"} />;
+  }
+
+  if (isInitialized) {
+    return <div>loaderrrrr</div>;
   }
 
   return <> {children} </>;

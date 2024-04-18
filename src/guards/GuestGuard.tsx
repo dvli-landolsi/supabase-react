@@ -1,16 +1,22 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuthContext } from "src/context";
 
 const GuestGuard = ({ children }: { children: React.ReactElement }) => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, isInitialized } = useAuthContext();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      return navigate("/");
-    }
-  }, []);
+  console.log({ isAuthenticated, isInitialized });
+
+  if (isAuthenticated) {
+    return <Navigate to={"/"} />;
+  }
+
+  if (isInitialized) {
+    return <div>loaderrrrr</div>;
+  }
+
+  console.log("teststst");
 
   return <>{children}</>;
 };
